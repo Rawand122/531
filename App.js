@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import TrainingMaxInputScreen from './TrainingMaxInputScreen';
+import WorkoutCycleScreen from './WorkoutCycleScreen';
+import WorkoutScreen from './WorkoutScreen';
+import InitialLoadingScreen from './InitialLoadingScreen';
+const Stack = createStackNavigator();
 
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen name="InitialLoadingScreen" component={InitialLoadingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="WorkoutCycleScreen" component={WorkoutCycleScreen} options={{ title: 'Workout cycles', headerTitleAlign: 'center',headerLeft: null, gestureEnabled: false }} />
+        <Stack.Screen name="TrainingMaxInputScreen" component={TrainingMaxInputScreen} options={{ title: 'Enter your 1RM', headerTitleAlign: 'center',headerLeft: null, gestureEnabled: false }} />
+        <Stack.Screen name="WorkoutScreen" component={WorkoutScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
