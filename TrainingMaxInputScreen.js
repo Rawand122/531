@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Switch} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { calculateWorkoutWeights, getReps, getPercentages, combineWorkouts } from './workoutCalculationService';
@@ -24,10 +24,10 @@ const TrainingMaxInputScreen = () => {
         const pressMaxConverted = unit === 'kg' ? parseFloat(pressMax) * 2.20462 : parseFloat(pressMax);
 
 
-        const squatWeights = calculateWorkoutWeights(parseFloat(squatMaxConverted), 'Squat', 3);
-      const benchWeights = calculateWorkoutWeights(parseFloat(benchMaxConverted), 'Bench Press', 3);
-      const deadliftWeights = calculateWorkoutWeights(parseFloat(deadliftMaxConverted), 'Deadlift', 3);
-      const pressWeights = calculateWorkoutWeights(parseFloat(pressMaxConverted), 'Overhead Press', 3);
+        const squatWeights = calculateWorkoutWeights(parseFloat(squatMaxConverted), 'Squat', 4);
+      const benchWeights = calculateWorkoutWeights(parseFloat(benchMaxConverted), 'Bench Press', 4);
+      const deadliftWeights = calculateWorkoutWeights(parseFloat(deadliftMaxConverted), 'Deadlift', 4);
+      const pressWeights = calculateWorkoutWeights(parseFloat(pressMaxConverted), 'Overhead Press', 4);
       const allWorkouts = combineWorkouts(squatWeights, benchWeights, deadliftWeights, pressWeights);
 
       await AsyncStorage.setItem('workouts', JSON.stringify(allWorkouts));
@@ -41,9 +41,17 @@ const TrainingMaxInputScreen = () => {
   return (
       <View style={styles.container}>
           {/* Toggle button for lbs/kg */}
-          <TouchableOpacity style={styles.toggleButton} onPress={toggleUnit}>
-              <Text style={styles.toggleButtonText}>{unit === 'lbs' ? 'Switch to kg' : 'Switch to lbs'}</Text>
-          </TouchableOpacity>
+          <View style={styles.unitToggle}>
+              <Text style={styles.unitToggleText}>Unit: {unit}</Text>
+              <Switch
+                  style={styles.switch}
+                  trackColor={{ false: '#767577', true: '#81b0ff' }}
+                  thumbColor={unit === 'kg' ? '#f4f3f4' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={() => setUnit(unit === 'lbs' ? 'kg' : 'lbs')}
+                  value={unit === 'kg'}
+              />
+          </View>
         <TextInput
             style={styles.input}
             placeholder={`Enter Squat Max in (${unit})`}

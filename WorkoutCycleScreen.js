@@ -13,7 +13,7 @@ const WorkoutItem = memo(({ item, toggleCompletion, handleSaveComments, comments
 
     return (
         <View style={styles.workoutItem}>
-            <Text style={styles.workoutTitle}>{item.lift} - Cycle {item.week}</Text>
+            <Text style={styles.workoutTitle}> Cycle {item.cycle}: {item.lift} - Workout {item.week}</Text>
             {/* Render workout sets */}
             {item.sets.map((set, index) => (
                 <TouchableOpacity key={set.id} onPress={() => toggleCompletion(set.id)}>
@@ -130,10 +130,10 @@ const WorkoutCycleScreen = () => {
                 return;
             }
 
-            const squatWeights = calculateWorkoutWeights(parseFloat(squatMax), 'Squat', 3);
-            const benchWeights = calculateWorkoutWeights(parseFloat(benchMax), 'Bench Press', 3);
-            const deadliftWeights = calculateWorkoutWeights(parseFloat(deadliftMax), 'Deadlift', 3);
-            const pressWeights = calculateWorkoutWeights(parseFloat(pressMax), 'Overhead Press', 3);
+            const squatWeights = calculateWorkoutWeights(parseFloat(squatMax), 'Squat', 4);
+            const benchWeights = calculateWorkoutWeights(parseFloat(benchMax), 'Bench Press', 4);
+            const deadliftWeights = calculateWorkoutWeights(parseFloat(deadliftMax), 'Deadlift', 4);
+            const pressWeights = calculateWorkoutWeights(parseFloat(pressMax), 'Overhead Press', 4);
             const allWorkouts = combineWorkouts(squatWeights, benchWeights, deadliftWeights, pressWeights);
 
             setWorkouts(allWorkouts);
@@ -148,9 +148,6 @@ const WorkoutCycleScreen = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Workouts</Text>
-            </View>
             <View style={styles.unitToggle}>
                 <Text style={styles.unitToggleText}>Unit: {unit}</Text>
                 <Switch
